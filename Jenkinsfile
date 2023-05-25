@@ -73,10 +73,9 @@ pipeline {
                        "pattern": "php-todo.zip",
                        "target": "ToDOCICD/php-todo",
                        "props": "type=zip;status=ready"
-
                        }
                     ]
-                 }''' 
+                 }'''
 
                  server.upload spec: uploadSpec
                }
