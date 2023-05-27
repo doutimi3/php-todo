@@ -71,7 +71,7 @@ pipeline {
                     "files": [
                       {
                        "pattern": "php-todo.zip",
-                       "target": "ToDOCICD/php-todo",
+                       "target": "TodoApp/php-todo",
                        "props": "type=zip;status=ready"
                        }
                     ]
@@ -85,7 +85,7 @@ pipeline {
 
     stage ('Deploy to Dev Environment') {
       steps {
-        build job: 'ansible-config-mgt-3/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
+        build job: 'ansible-config/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
             }
         }
 }
