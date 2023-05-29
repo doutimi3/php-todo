@@ -69,18 +69,19 @@ pipeline {
     // }
 
     stage('SonarQube Quality Gate') {
-      environment {
-        scannerHome = tool 'SonarQubeScanner'
-        nodePath = tool 'Node' // Add this line to set the Node.js tool
-      }
-      steps {
-        withEnv(['PATH+NODEJS=$nodeHome/bin']) {
-          withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
+      when { branch pattern: "^develop*|^hotfix*|^release*|^main*", comparator: "REGEXP"}
+        environment {
+          scannerHome = tool 'SonarQubeScanner'
+          nodePath = tool 'Node' // Add this line to set the Node.js tool
+        }
+        steps {
+          withEnv(['PATH+NODEJS=$nodeHome/bin']) {
+            withSonarQubeEnv('sonarqube') {
+              sh "${scannerHome}/bin/sonar-scanner"
+          }
         }
       }
-    }
-    }
+      }
 
     stage ('Package Artifact') {
     steps {
