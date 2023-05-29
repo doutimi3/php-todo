@@ -77,11 +77,14 @@ pipeline {
         steps {
           withEnv(['PATH+NODEJS=$nodeHome/bin']) {
             withSonarQubeEnv('sonarqube') {
-              sh "${scannerHome}/bin/sonar-scanner"
+              sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
           }
+          timeout(time: 1, unit: 'MINUTES') {
+              waitForQualityGate abortPipeline: true
         }
       }
       }
+    }
 
     stage ('Package Artifact') {
     steps {
