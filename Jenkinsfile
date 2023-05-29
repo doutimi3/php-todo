@@ -60,14 +60,18 @@ pipeline {
     stage('SonarQube Quality Gate') {
       environment {
           scannerHome = tool 'SonarQubeScanner'
+          nodePath = tool 'Node' // Add this line to set the Node.js tool
+          path("$nodePath/bin") // Add this line to include the Node.js binary path in the system path
         }
       steps {
         withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
+            sh """
+              export PATH=$nodePath/bin:$PATH  # Add this line to set the Node.js binary path
+              ${scannerHome}/bin/sonar-scanner
+            """
             }
-
         }
-    }
+      }
 
     stage ('Package Artifact') {
     steps {
